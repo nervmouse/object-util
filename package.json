@@ -9,7 +9,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nervmouse/object-util.git"
-  }
+  },
   "author": "Jim Chen",
   "license": "MIT",
   "bugs": {

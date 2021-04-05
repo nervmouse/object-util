@@ -1,0 +1,19 @@
+{
+  "name": "object-util",
+  "version": "1.0.0",
+  "description": "object util",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nervmouse/object-util.git"
+  }
+  "author": "Jim Chen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nervmouse/object-util/issues"
+  },
+  "homepage": "https://github.com/nervmouse/object-util#readme"
+}

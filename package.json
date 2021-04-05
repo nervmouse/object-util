@@ -1,5 +1,5 @@
 {
-  "name": "object-util",
+  "name": "@nervmouse/object-util",
   "version": "1.0.0",
   "description": "object util",
   "main": "index.js",

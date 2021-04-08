@@ -1,3 +1,22 @@
+function objPathJoin(basePath,...paths){
+  let ptahArr=basePath.split('.')
+  for(let path of paths){
+    while (path.substr(0,1)==='.'){
+      if (path.substr(0,3)==='../'){
+        path=path.substr(3)
+        ptahArr.pop()
+      }else if (path.substr(0,2)==='./'){
+        path=path.substr(2)
+      }else{
+        path=path.substr(1)
+      }
+    }
+    ptahArr=ptahArr.concat(path.split('.'))
+
+  }
+  return ptahArr.join('.')
+
+}
 function objPath(obj,path){
   let pa
   if (typeof path==='string'){
@@ -89,6 +108,7 @@ function objMoveProp(obj,path,step){
   }
   return obj
 }
+
 //deep copy
 function objCopy(obj){
   
@@ -127,6 +147,7 @@ function objWalk(obj,callback){
   }
 }
 module.exports ={
+  objPathJoin,
   objPath,
   objPathParent,
   objPathSet,

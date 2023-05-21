@@ -148,8 +148,10 @@ function objWalk(obj,callback){
     }
   }
 }
-const useObjUtil=(obj)=>{
-  
+const useObjUtil=(obj,inplace=true)=>{
+  if(!inplace){
+    obj=objCopy(obj)
+  }
   return {
     obj,
     parent:objPathParent.bind(obj,obj),

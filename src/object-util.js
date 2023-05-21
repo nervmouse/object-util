@@ -20,17 +20,32 @@ function objPathJoin(basePath,...paths){
 function objPath(obj,path){
   let pa
   if (typeof path==='string'){
-    pa=path.split('.')
+    pa=path.split(/\]?[\[\.]/g)
   }else{
     pa=path
   }
   
   let tmp=obj
   for (let p of pa){
+    let arrayMode=false
+    if (p[p.length-1]===']'){
+      try{
+        const tmp_p=Number(p.substring(0,p.length-2))
+        if (!isNaN(tmp_p)) {
+          p=tmp_p
+          arrayMode = true
+        }
+      }catch(e){
+        console.log(e)
+      }
+      
+    }
     if (tmp!==undefined){
       //tmp=tmp[p]
       tmp=Reflect.get(tmp,p)
     }else{
+      //try array
+      
       
       return  null
     }
@@ -40,7 +55,7 @@ function objPath(obj,path){
   return tmp 
 }
 function objPathParent(obj,path,force){
-  let pa=path.split('.')
+  let pa=path.split(/\]?[\[\.]/g)
   let attr=pa.pop()
   let parent_path=pa.join('.')
   let parent=objPath(obj,pa)

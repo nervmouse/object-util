@@ -75,6 +75,8 @@ function objPathDelete(obj,path){
   }
 }
 function objMoveProp(obj,path,step){
+  //move the sequence of prop
+  // {a,b,c} -> path:a, step:1-> {b,a,c}
   if (step){
     const {parent,attr}=objPathParent(obj,path,false)
     if (parent){
@@ -146,6 +148,18 @@ function objWalk(obj,callback){
     }
   }
 }
+const useObjUtil=(obj)=>{
+  
+  return {
+    obj,
+    parent:objPathParent.bind(obj,obj),
+    get:objPath.bind(obj,obj),
+    set:objPathSet.bind(obj,obj),
+    delete:objPathDelete.bind(obj,obj),
+    copy:objCopy.bind(obj,obj),
+    walk:objWalk.bind(obj,obj)
+  }
+}
 module.exports ={
   objPathJoin,
   objPath,
@@ -154,5 +168,6 @@ module.exports ={
   objPathDelete,
   objMoveProp,
   objCopy,
-  objWalk
+  objWalk,
+  useObjUtil
 }

@@ -17,44 +17,98 @@ function objPathJoin(basePath,...paths){
   return ptahArr.join('.')
 
 }
-function objPath(obj,path){
+function* pathWalk(path) {
   let pa
   if (typeof path==='string'){
-    pa=path.split(/\]?[\[\.]/g)
+    //pa=path.split(/\]?[\[\.]/g)
+    pa = path.split(/[\.\[]/g)
   }else{
     pa=path
   }
-  
-  let tmp=obj
-  for (let p of pa){
-    let arrayMode=false
-    if (p[p.length-1]===']'){
-      try{
-        const tmp_p=Number(p.substring(0,p.length-2))
+  let depth=0
+  const totalDepth = pa.length-1
+  for (let rawProp of pa){
+    let isArray=false
+    let prop=rawProp
+    const len=rawProp.length
+    if (prop[len - 1] === "]") {
+      try {
+        const tmp_p = Number(prop.substring(0, len - 1))
         if (!isNaN(tmp_p)) {
-          p=tmp_p
-          arrayMode = true
+          prop = tmp_p
+          rawProp='['+rawProp
+          isArray = true
         }
-      }catch(e){
+      } catch (e) {
         console.log(e)
       }
-      
     }
-    if (tmp!==undefined){
-      //tmp=tmp[p]
-      tmp=Reflect.get(tmp,p)
-    }else{
-      //try array
-      
-      
-      return  null
-    }
+    yield { depth,totalDepth, prop,rawProp, isArray }
+    depth++
     
   }
+}
+function objPath(obj,path){
+  let tmp = obj
+  for (const {prop,isArray} of pathWalk(path)){
+    if (tmp !== undefined) {
+      //tmp=tmp[p]
+      tmp = Reflect.get(tmp, prop)
+    } else {
+      //try array
+
+      return null
+    }
+  }
+  
 
   return tmp 
 }
-function objPathParent(obj,path,force){
+function objPathParent(obj, path, force) {
+  let attr
+  let parent = obj
+  let lastParent=obj
+  let parentProp=''
+  let parentPa=[]
+  let parentPath=''
+  let makeParent=false
+  for (const { depth,totalDepth, prop,rawProp, isArray } of pathWalk(path)) {
+    if (makeParent){
+        if (isArray) {
+          parent = []
+        } else {
+          parent = {}
+        }
+        Reflect.set(lastParent, parentProp, parent)
+        makeParent=false
+    }
+      if (depth === totalDepth) {
+        //last
+        attr = prop
+      } else {
+        parentPa.push(rawProp)
+        lastParent = parent
+        if (parent !== undefined) parent = Reflect.get(parent, prop)
+        if (parent === undefined) {
+          if (force) {
+            makeParent = true
+            parentProp = prop
+          }
+        }
+
+        //parentProp = prop
+        if (isArray || parentPath === "") {
+          parentPath += rawProp
+        } else {
+          parentPath += "." + rawProp
+        }
+      }
+  }
+
+  
+  return { parent, parent_path: parentPath, attr }
+}
+function objPathParent_bak(obj,path,force){
   let pa=path.split(/\]?[\[\.]/g)
   let attr=pa.pop()
   let parent_path=pa.join('.')

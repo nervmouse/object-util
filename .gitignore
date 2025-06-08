@@ -1,0 +1,40 @@
+# Compiled output
+dist/
+build/
+*.js
+*.js.map
+
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# IDEs and editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.code-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
+*.log
+*.tmp
+npm-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+*.env
+
+# Coverage reports
+coverage/
+
+# Optional files
+*.tsbuildinfo

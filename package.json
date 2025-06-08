@@ -2,9 +2,12 @@
   "name": "@nervmouse/object-util",
   "version": "1.5.0",
   "description": "object util",
-  "main": "index.js",
+  "main": "dist/object-util.js",
+  "types": "dist/object-util.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup",
+    "prepublishOnly": "pnpm run build"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,18 @@
   "bugs": {
     "url": "https://github.com/nervmouse/object-util/issues"
   },
-  "homepage": "https://github.com/nervmouse/object-util#readme"
+  "homepage": "https://github.com/nervmouse/object-util#readme",
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  },
+  "tsup": {
+    "entry": [
+      "src/object-util.ts"
+    ],
+    "splitting": false,
+    "sourcemap": true,
+    "clean": true,
+    "dts": true
+  }
 }

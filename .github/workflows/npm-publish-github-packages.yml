@@ -32,6 +32,7 @@ jobs:
       - name: Build 🔨
         run: pnpm build
 
-      - uses: simenandre/publish-with-pnpm@v2
-        with:
-          npm-auth-token: ${{ secrets.NPM_TOKEN }}
+      - name: Publish
+        run: pnpm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

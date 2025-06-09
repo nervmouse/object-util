@@ -23,6 +23,7 @@
     "url": "https://github.com/nervmouse/object-util/issues"
   },
   "homepage": "https://github.com/nervmouse/object-util#readme",
+  "packageManager": "pnpm@9.6.0",
   "devDependencies": {
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
